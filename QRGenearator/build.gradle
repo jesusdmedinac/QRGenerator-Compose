@@ -1,17 +1,18 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 group = 'androidmads.library.qrgenearator' // Change this to match your package name
 version = '1.0.4' // Change this to match your version number
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     buildToolsVersion "28.0.3"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
     }
@@ -25,6 +26,7 @@ android {
 
 dependencies {
     implementation 'com.google.zxing:core:3.3.2'
+    implementation 'androidx.core:core-ktx:+'
 }
 
 Properties properties = new Properties()
