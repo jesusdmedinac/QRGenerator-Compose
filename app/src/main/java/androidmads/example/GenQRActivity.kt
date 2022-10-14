@@ -6,15 +6,15 @@ import android.util.Log
 import android.widget.ImageView
 import androidmads.library.qrgenearator.QRGContents
 import androidmads.library.qrgenearator.QRGEncoder
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 
-class GenQRActivity : AppCompatActivity() {
+class GenQRActivity : ComponentActivity() {
     private var imageQR: ImageView? = null
     private var bitmap: Bitmap? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gen_q_r)
-        imageQR = findViewById(R.id.imageQR)
+        //imageQR = findViewById(R.id.imageQR)
         val bundle = intent.extras
         //        String name = bundle.getString("name");
 //        String address = bundle.getString("postal");

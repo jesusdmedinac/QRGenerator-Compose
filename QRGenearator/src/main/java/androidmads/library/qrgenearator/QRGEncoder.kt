@@ -29,6 +29,9 @@ class QRGEncoder(
     private var encoded = false
 
     init {
+        println("dani init $data")
+        println("dani init $bundle")
+        println("dani init $type")
         encoded = encodeContents(data, bundle, type)
     }
 
@@ -172,31 +175,32 @@ class QRGEncoder(
     }
 
     // All are 0, or black, by default
-    val bitmap: Bitmap?
-        get() = if (!encoded) null else try {
-            var hints: MutableMap<EncodeHintType?, Any?>? = null
-            val encoding = guessAppropriateEncoding(contents)
-            if (encoding != null) {
-                hints = EnumMap(EncodeHintType::class.java)
-                hints[EncodeHintType.CHARACTER_SET] = encoding
-            }
-            val writer = MultiFormatWriter()
-            val result = writer.encode(contents, format, dimension, dimension, hints)
-            val width = result.width
-            val height = result.height
-            val pixels = IntArray(width * height)
-            // All are 0, or black, by default
-            for (y in 0 until height) {
-                val offset = y * width
-                for (x in 0 until width) {
-                    pixels[offset + x] = if (result[x, y]) colorBlack else colorWhite
+    val bitmap: Bitmap
+        get() = when {
+            !encoded -> throw Exception("Encoded should not be null")
+            else -> {
+                var hints: MutableMap<EncodeHintType?, Any?>? = null
+                val encoding = guessAppropriateEncoding(contents)
+                if (encoding != null) {
+                    hints = EnumMap(EncodeHintType::class.java)
+                    hints[EncodeHintType.CHARACTER_SET] = encoding
                 }
+                val writer = MultiFormatWriter()
+                val result = writer.encode(contents, format, dimension, dimension, hints)
+                val width = result.width
+                val height = result.height
+                val pixels = IntArray(width * height)
+                // All are 0, or black, by default
+                for (y in 0 until height) {
+                    val offset = y * width
+                    for (x in 0 until width) {
+                        pixels[offset + x] = if (result[x, y]) colorBlack else colorWhite
+                    }
+                }
+                val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+                bitmap
             }
-            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-            bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-            bitmap
-        } catch (ex: Exception) {
-            null
         }
 
     private fun guessAppropriateEncoding(contents: CharSequence?): String? {

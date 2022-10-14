@@ -29,12 +29,9 @@ object QRGContents {
     )
 
     object ImageType {
-        @JvmField
-        var IMAGE_PNG = 0
-        @JvmField
-        var IMAGE_JPEG = 1
-        @JvmField
-        var IMAGE_WEBP = 2
+        const val IMAGE_PNG = 0
+        const val IMAGE_JPEG = 1
+        const val IMAGE_WEBP = 2
     }
 
     object Type {
